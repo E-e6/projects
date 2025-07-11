@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🌌 SkyTracker – ISS Passes Over Perth</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <h1>🌌 SkyTracker – ISS Over Perth</h1>
+        <p>Get inspired by what’s above! Here's when to look up:</p>
+
+        <section class="card">
+            <h2>🛰 Upcoming ISS Passes</h2>
+            <ul>
+                {% for p in passes %}
+                    <li>
+                        <strong>⏰ Time:</strong> {{ p.risetime }} <br>
+                        <strong>📍 Duration:</strong> {{ p.duration }} seconds
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>🪐 Visible Planets Tonight</h2>
+            <ul>
+                {% for planet in planets %}
+                    <li>🔭 {{ planet }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <p class="footer">📡 Real data powered by Open Notify (fallback active)</p>
+    </div>
+</body>
+</html>
