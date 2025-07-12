@@ -3,18 +3,15 @@ CS50 Final Project – SkyTracker
 Uses updated API: https://api.wheretheiss.at/v1/satellites/25544
 Includes fallback data and visible planet simulation.
 """
-from flask import Flask
-import os
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 from flask import Flask, render_template, jsonify
+import os
 import requests
-from datetime import datetime, timezone
-now = datetime.now(timezone.utc)
+from datetime import datetime, timezone, timedelta
 from random import sample
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 ISS_API = "https://api.wheretheiss.at/v1/satellites/25544"
 
@@ -35,7 +32,7 @@ def get_iss_passes(lat, lon):
         response.raise_for_status()
         now = datetime.utcnow()
         passes = [
-            {"risetime": (now).strftime("%Y-%m-%d %H:%M:%S"), "duration": 600},
+            {"risetime": now.strftime("%Y-%m-%d %H:%M:%S"), "duration": 600},
             {"risetime": (now + timedelta(hours=9)).strftime("%Y-%m-%d %H:%M:%S"), "duration": 540},
             {"risetime": (now + timedelta(hours=17)).strftime("%Y-%m-%d %H:%M:%S"), "duration": 480},
         ]
@@ -45,7 +42,7 @@ def get_iss_passes(lat, lon):
         return [
             {"risetime": "2025-07-11 20:03:00", "duration": 600},
             {"risetime": "2025-07-12 05:12:00", "duration": 480},
-            {"risetime": "2025-07-12 19:50:00", "duration": 540}
+            {"risetime": "2025-07-12 19:50:00", "duration": 540},
         ]
 
 
@@ -69,14 +66,10 @@ def iss_location():
             "longitude": data["longitude"],
             "altitude": data["altitude"]
         })
-    except Exception as e:
+    except Exception:
         return jsonify({"error": "Failed to fetch ISS location"}), 500
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-    import os
-    
-    if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
