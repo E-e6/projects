@@ -10,7 +10,8 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 from flask import Flask, render_template, jsonify
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timezone
+now = datetime.now(timezone.utc)
 from random import sample
 
 app = Flask(__name__)
@@ -74,3 +75,8 @@ def iss_location():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    import os
+    
+    if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
