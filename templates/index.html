@@ -30,6 +30,32 @@
                     <li>🔭 {{ planet }}</li>
                 {% endfor %}
             </ul>
+            <section class="card">
+    <h2>🌍 Real-Time ISS Location</h2>
+    <p><strong>Latitude:</strong> <span id="lat">Loading...</span></p>
+    <p><strong>Longitude:</strong> <span id="lon">Loading...</span></p>
+    <p><strong>Altitude:</strong> <span id="alt">Loading...</span> km</p>
+</section>
+
+<script>
+    async function updateISSLocation() {
+        try {
+            const res = await fetch("/api/iss");
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            document.getElementById("lat").textContent = data.latitude.toFixed(4);
+            document.getElementById("lon").textContent = data.longitude.toFixed(4);
+            document.getElementById("alt").textContent = data.altitude.toFixed(2);
+        } catch (err) {
+            document.getElementById("lat").textContent = "Unavailable";
+            document.getElementById("lon").textContent = "Unavailable";
+            document.getElementById("alt").textContent = "Unavailable";
+        }
+    }
+
+    updateISSLocation();
+    setInterval(updateISSLocation, 10000); // Refresh every 10 seconds
+</script>
         </section>
 
         <p class="footer">📡 Real data powered by Open Notify (fallback active)</p>
