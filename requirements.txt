@@ -13,7 +13,6 @@ gunicorn==23.0.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
-lib50==3.0.12
 MarkupSafe==3.0.2
 packaging==25.0
 pexpect==4.9.0
